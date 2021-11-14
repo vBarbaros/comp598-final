@@ -36,7 +36,7 @@ def connect_to_endpoint(url, params):
     return response.json()
 
 
-def write_to_file(tmp_dict, out_file):
+def append_to_file(tmp_dict, out_file):
     sample_file = os.path.join(parentdir, out_file)
 
     out_dir = os.path.split(sample_file)
@@ -47,11 +47,11 @@ def write_to_file(tmp_dict, out_file):
     f.write(json.dumps(tmp_dict) + '\n')
     f.close()
 
+
 def main():
     json_response = connect_to_endpoint(TWITTER_SEARCH_URL, SEARCH_QUERY_PARAMS)
     print(json.dumps(json_response, indent=4, sort_keys=True))
-    write_to_file(json_response['data'], out_file=OUT_FILE)
-
+    append_to_file(json_response['data'], out_file=OUT_FILE)
 
 
 if __name__ == '__main__':
