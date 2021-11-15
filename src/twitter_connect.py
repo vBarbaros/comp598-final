@@ -15,14 +15,8 @@ OUT_FILE_CSV = 'data/twitter_dump.csv'
 
 parentdir = Path(__file__).parents[1]
 
-# 'query': 'covid, covid-19, covid19, moderna, vaccine, pfizer, Pfizer, Moderna, JohnsonAndJohnson, COVID19vaccine (#moderna, OR #pfizer, OR #covid, OR #covid19vaccine, OR #antivax) lang:en -is:retweet -is:reply',
 
-SEARCH_QUERY_PARAMS = {
-    'query': 'covid, moderna, vaccine, pfizer, Pfizer Moderna JohnsonAndJohnson COVID19vaccine (#moderna, OR #antivax) lang:en -is:retweet -is:reply',
-    'max_results': 100,
-    'tweet.fields': 'author_id,created_at,entities,geo,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source',
-    'user.fields': 'created_at,entities'
-}
+# 'query': 'covid, covid-19, covid19, moderna, vaccine, pfizer, Pfizer, Moderna, JohnsonAndJohnson, COVID19vaccine (#moderna, OR #pfizer, OR #covid, OR #covid19vaccine, OR #antivax) lang:en -is:retweet -is:reply',
 
 
 def bearer_oauth_search(r):
@@ -31,8 +25,17 @@ def bearer_oauth_search(r):
     return r
 
 
-def connect_to_endpoint(url, params):
-    response = requests.request("GET", url, auth=bearer_oauth_search, params=params)
+def connect_to_endpoint(url, next_token=None):
+    SEARCH_QUERY_PARAMS = {
+        'query': 'covid, moderna, vaccine (#moderna, OR #antivax) lang:en -is:retweet -is:reply',
+        'max_results': 100,
+        'tweet.fields': 'author_id,created_at,entities,geo,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source',
+        'user.fields': 'created_at,entities'
+    }
+    if next_token:
+        SEARCH_QUERY_PARAMS['next_token'] = next_token
+
+    response = requests.request("GET", url, auth=bearer_oauth_search, params=SEARCH_QUERY_PARAMS)
     print(response.status_code)
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
@@ -72,9 +75,38 @@ def main():
     else:
         COLLECTED_TWEETS = previous_data_frame.values.tolist()
 
-    json_response = connect_to_endpoint(TWITTER_SEARCH_URL, SEARCH_QUERY_PARAMS)
+    json_response = connect_to_endpoint(TWITTER_SEARCH_URL)
+    json_response_data, json_response_next_token = get_response_components(json_response)
 
-    for tweet in json_response['data']:
+    COLLECTED_TWEETS = process_response(COLLECTED_TWEETS, json_response_data)
+
+    while json_response_next_token:
+        json_response = connect_to_endpoint(TWITTER_SEARCH_URL, json_response_next_token)
+        json_response_data, json_response_next_token = get_response_components(json_response)
+
+        COLLECTED_TWEETS = process_response(COLLECTED_TWEETS, json_response_data)
+
+    columns = ['tweet_id', 'text', 'source', 'created_at', 'possibly_sensitive', 'author_id', 'places_type',
+               'places_normalized_text', 'hashtags', 'lang']
+    df = pd.DataFrame(COLLECTED_TWEETS, columns=columns)
+    write_to_csv_collected_tweets(df)
+    append_to_file(json_response['data'], out_file=OUT_FILE_JSON)
+
+
+def get_response_components(json_response):
+    try:
+        json_response_data = json_response['data']
+    except KeyError:
+        json_response_data = []
+    try:
+        json_response_next_token = json_response['meta']['next_token']
+    except KeyError:
+        json_response_next_token = None
+    return json_response_data, json_response_next_token
+
+
+def process_response(COLLECTED_TWEETS, json_response_data):
+    for tweet in json_response_data:
         unique_ids = [str(t[0]) for t in COLLECTED_TWEETS]
         tweet_already_collected = tweet['id'] in unique_ids
         if not tweet_already_collected:
@@ -110,11 +142,7 @@ def main():
                 ]
             )
 
-    columns = ['tweet_id', 'text', 'source', 'created_at', 'possibly_sensitive', 'author_id', 'places_type',
-               'places_normalized_text', 'hashtags', 'lang']
-    df = pd.DataFrame(COLLECTED_TWEETS, columns=columns)
-    write_to_csv_collected_tweets(df)
-    append_to_file(json_response['data'], out_file=OUT_FILE_JSON)
+    return COLLECTED_TWEETS
 
 
 if __name__ == '__main__':
