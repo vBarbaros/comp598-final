@@ -18,6 +18,7 @@ parentdir = Path(__file__).parents[1]
 
 # 'query': 'covid, covid-19, covid19, moderna, vaccine, pfizer, Pfizer, Moderna, JohnsonAndJohnson, COVID19vaccine (#moderna, OR #pfizer, OR #covid, OR #covid19vaccine, OR #antivax) lang:en -is:retweet -is:reply',
 
+# q: covid, moderna, vaccine (#moderna, OR #antivax) (@Canada) min_replies:10 lang:en until:2021-11-14 since:2021-11-13
 
 def bearer_oauth_search(r):
     r.headers["Authorization"] = f"Bearer {BEARER_TOKEN}"
