@@ -7,7 +7,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from pathlib import Path
 
-from src.twitter_preprocess_functions import today_record, collect_valid_tweets
+from src.twitter_preprocess import today_record, collect_valid_tweets
 
 load_dotenv(find_dotenv())
 TWITTER_SEARCH_URL = 'https://api.twitter.com/2/tweets/search/recent'
@@ -16,24 +16,29 @@ BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 TWEET_THRESHOLD = 12000
 USE_FILTER = 3
 
-if USE_FILTER == 1:
-    OUT_FILE_JSON = 'data/twitter_dump_by_keywords.json'
-    OUT_FILE_CSV = 'data/twitter_dump_by_keywords.csv'
-    OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_by_keywords_filtered.csv'
-    OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_by_keywords_filtered.json'
-    SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) lang:en -is:retweet -is:reply'
-elif USE_FILTER == 2:
-    OUT_FILE_JSON = 'data/twitter_dump_replies_cbc_only.json'
-    OUT_FILE_CSV = 'data/twitter_dump_replies_cbc_only.csv'
-    OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_replies_cbc_only_filtered.csv'
-    OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_replies_cbc_only_filtered.json'
-    SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CBCNews OR @CBCCanada OR @CdnPressNews OR @CBCAlerts) lang:en is:reply'
-elif USE_FILTER == 3:
-    OUT_FILE_JSON = 'data/twitter_dump_replies_gvnmt_only.json'
-    OUT_FILE_CSV = 'data/twitter_dump_replies_gvnmt_only.csv'
-    OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_replies_gvnmt_only_filtered.csv'
-    OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_replies_gvnmt_only_filtered.json'
-    SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CanBorder OR @JustinTrudeau OR @TravelGoC OR @CPHO_Canada OR @GovCanHealth or @CanadianPM or @Safety_Canada) lang:en is:reply'
+
+def get_file_paths(filter_type):
+    if filter_type == 1:
+        OUT_FILE_JSON = 'data/twitter_dump_by_keywords.json'
+        OUT_FILE_CSV = 'data/twitter_dump_by_keywords.csv'
+        OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_by_keywords_filtered.csv'
+        OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_by_keywords_filtered.json'
+        SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) lang:en -is:retweet -is:reply'
+    elif filter_type == 2:
+        OUT_FILE_JSON = 'data/twitter_dump_replies_cbc_only.json'
+        OUT_FILE_CSV = 'data/twitter_dump_replies_cbc_only.csv'
+        OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_replies_cbc_only_filtered.csv'
+        OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_replies_cbc_only_filtered.json'
+        SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CBCNews OR @CBCCanada OR @CdnPressNews OR @CBCAlerts) lang:en is:reply'
+    elif filter_type == 3:
+        OUT_FILE_JSON = 'data/twitter_dump_replies_gvnmt_only.json'
+        OUT_FILE_CSV = 'data/twitter_dump_replies_gvnmt_only.csv'
+        OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_replies_gvnmt_only_filtered.csv'
+        OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_replies_gvnmt_only_filtered.json'
+        SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CanBorder OR @JustinTrudeau OR @TravelGoC OR @CPHO_Canada OR @GovCanHealth or @CanadianPM or @Safety_Canada) lang:en is:reply'
+    return OUT_FILE_JSON, OUT_FILE_CSV, OUT_FILE_FILTERED_CSV, OUT_FILE_FILTERED_JSON, SEARCH_QUERY
+
+OUT_FILE_JSON, OUT_FILE_CSV, OUT_FILE_FILTERED_CSV, OUT_FILE_FILTERED_JSON, SEARCH_QUERY = get_file_paths(USE_FILTER)
 
 parentdir = Path(__file__).parents[1]
 
@@ -73,8 +78,8 @@ def append_to_json(tmp_dict, out_file):
     f.close()
 
 
-def read_from_csv_collected_tweets():
-    sample_file = os.path.join(parentdir, OUT_FILE_CSV)
+def read_from_csv_collected_tweets(out_file_csv):
+    sample_file = os.path.join(parentdir, out_file_csv)
     if not os.path.exists(sample_file):
         return None
 
@@ -160,8 +165,8 @@ def collect_new_tweets(COLLECTED_TWEETS, json_response_next_token=None):
     return COLLECTED_TWEETS, json_response, json_response_next_token
 
 
-def get_collected_tweets():
-    previous_data_frame = read_from_csv_collected_tweets()
+def get_collected_tweets(out_file_csv):
+    previous_data_frame = read_from_csv_collected_tweets(out_file_csv)
     if previous_data_frame is None:
         COLLECTED_TWEETS = []
     else:
@@ -196,7 +201,7 @@ def preprocess_collected_tweets():
 
 
 def main():
-    COLLECTED_TWEETS = get_collected_tweets()
+    COLLECTED_TWEETS = get_collected_tweets(OUT_FILE_CSV)
 
     COLLECTED_TWEETS, json_response = collect(COLLECTED_TWEETS)
     append_to_files_all(COLLECTED_TWEETS, None, OUT_FILE_CSV, OUT_FILE_JSON)
