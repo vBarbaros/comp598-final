@@ -18,7 +18,7 @@ parentdir = Path(__file__).parents[1]
 
 OUT_FILE_JSON = 'data/twitter_dump_replies_gvnmt_only_filter.json'
 OUT_FILE_CSV = 'data/twitter_dump_replies_gvnmt_only_filter.csv'
-raw_sample_file = '../data/twitter_dump_replies_gvnmt_only.csv'
+raw_sample_file = "../data/twitter_dump_replies_gvnmt_only.csv"
 
 
 def check_word_in_text(text):
