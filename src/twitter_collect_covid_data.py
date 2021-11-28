@@ -7,22 +7,24 @@ import pandas as pd
 from dotenv import load_dotenv
 from pathlib import Path
 
-
-
 load_dotenv(find_dotenv())
 TWITTER_SEARCH_URL = 'https://api.twitter.com/2/tweets/search/recent'
 BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
-OUT_FILE_JSON = 'data/twitter_dump_replies.json'
-OUT_FILE_CSV = 'data/twitter_dump_replies.csv'
+# OUT_FILE_JSON = 'data/twitter_dump_by_keywords.json'
+# OUT_FILE_CSV = 'data/twitter_dump_by_keywords.csv'
+# SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) lang:en -is:retweet -is:reply'
+
+# OUT_FILE_JSON = 'data/twitter_dump_replies_cbc_only.json'
+# OUT_FILE_CSV = 'data/twitter_dump_replies_cbc_only.csv'
+# SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CBCNews OR @CBCCanada OR @CdnPressNews OR @CBCAlerts) lang:en is:reply'
+
+OUT_FILE_JSON = 'data/twitter_dump_replies_gvnmt_only.json'
+OUT_FILE_CSV = 'data/twitter_dump_replies_gvnmt_only.csv'
+SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CanBorder OR @JustinTrudeau OR @TravelGoC OR @CPHO_Canada OR @GovCanHealth or @CanadianPM or @Safety_Canada) lang:en is:reply'
 
 parentdir = Path(__file__).parents[1]
 
-
-# 'query': 'covid, covid-19, covid19, moderna, vaccine, pfizer, Pfizer, Moderna, JohnsonAndJohnson, COVID19vaccine (#moderna, OR #pfizer, OR #covid, OR #covid19vaccine, OR #antivax) lang:en -is:retweet -is:reply',
-
-# q: covid, moderna, vaccine (#moderna, OR #antivax) (@Canada) min_replies:10 lang:en until:2021-11-14 since:2021-11-13
-# vaccine vaccination (pfzier OR moderna OR JohnsonAndJohnson)  (@CBCNews OR @JustinTrudeau) lang:en is:reply',
 
 def bearer_oauth_search(r):
     r.headers["Authorization"] = f"Bearer {BEARER_TOKEN}"
@@ -32,11 +34,7 @@ def bearer_oauth_search(r):
 
 def connect_to_endpoint(url, next_token=None):
     SEARCH_QUERY_PARAMS = {
-        #'query': 'covid, moderna, vaccine (#moderna, OR #antivax) lang:en -is:rtwet -is:reply',
-        # (Pfizer OR moderna OR vaccine OR vaccination) (@CBCNews OR @JustinTrudeau) lang:en filter:replies
-        #'query': 'vaccine (pfzier OR moderna OR JohnsonAndJohnson) (#covid) (@CBCNews OR @JustinTrudeau) lang:en is:reply',
-        #'query': 'vaccine (pfzier OR moderna OR JohnsonAndJohnson)  (@CBCNews OR @JustinTrudeau) lang:en is:reply',
-        'query': 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination)(@CBCNews OR @JustinTrudeau OR @CBCCanada OR @CdnPressNews OR @GovCanHealth or @CBCAlerts) lang:en is:reply',
+        'query': SEARCH_QUERY,
         'max_results': 100,
         'tweet.fields': 'author_id,created_at,entities,geo,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source',
         'user.fields': 'created_at,entities'
@@ -51,7 +49,7 @@ def connect_to_endpoint(url, next_token=None):
     return response.json()
 
 
-def append_to_file(tmp_dict, out_file):
+def append_to_json(tmp_dict, out_file):
     sample_file = os.path.join(parentdir, out_file)
 
     out_dir = os.path.split(sample_file)
@@ -59,7 +57,7 @@ def append_to_file(tmp_dict, out_file):
         os.makedirs(out_dir[0])
 
     f = open(sample_file, 'a')
-    f.write(json.dumps(tmp_dict, indent = 4) + '\n')
+    f.write(json.dumps(tmp_dict, indent=4) + '\n')
     f.close()
 
 
@@ -72,39 +70,22 @@ def read_from_csv_collected_tweets():
     return df
 
 
-def write_to_csv_collected_tweets(dataframe):
+def append_to_csv(dataframe):
     sample_file = os.path.join(parentdir, OUT_FILE_CSV)
     dataframe.to_csv(sample_file, index=False)
+
+
+def get_tweets_dataframe(COLLECTED_TWEETS):
+    columns = ['tweet_id', 'text', 'source', 'created_at', 'possibly_sensitive', 'author_id', 'places_type',
+               'places_normalized_text', 'hashtags', 'lang']
+    return pd.DataFrame(COLLECTED_TWEETS, columns=columns)
+
 
 def check_word_in_text(text):
     word_list = text.split()
     number = len(word_list)
 
-    return number 
-
-def main():
-    previous_data_frame = read_from_csv_collected_tweets()
-    if previous_data_frame is None:
-        COLLECTED_TWEETS = []
-    else:
-        COLLECTED_TWEETS = previous_data_frame.values.tolist()
-
-    json_response = connect_to_endpoint(TWITTER_SEARCH_URL)
-    json_response_data, json_response_next_token = get_response_components(json_response)
-
-    COLLECTED_TWEETS = process_response(COLLECTED_TWEETS, json_response_data)
-
-    while json_response_next_token:
-        json_response = connect_to_endpoint(TWITTER_SEARCH_URL, json_response_next_token)
-        json_response_data, json_response_next_token = get_response_components(json_response)
-
-        COLLECTED_TWEETS = process_response(COLLECTED_TWEETS, json_response_data)
-
-    columns = ['tweet_id', 'text', 'source', 'created_at', 'possibly_sensitive', 'author_id', 'places_type',
-               'places_normalized_text', 'hashtags', 'lang']
-    df = pd.DataFrame(COLLECTED_TWEETS, columns=columns)
-    write_to_csv_collected_tweets(df)
-    append_to_file(json_response['data'], out_file=OUT_FILE_JSON)
+    return number
 
 
 def get_response_components(json_response):
@@ -140,7 +121,7 @@ def process_response(COLLECTED_TWEETS, json_response_data):
                 hashtags = ' '.join([tag_dict['tag'] for tag_dict in tweet['entities']['hashtags']])
             except:
                 pass
-            if check_word_in_text (tweet['text']) >=10:
+            if check_word_in_text(tweet['text']) >= 10:
                 COLLECTED_TWEETS.append(
                     [
                         tweet['id'],
@@ -157,6 +138,44 @@ def process_response(COLLECTED_TWEETS, json_response_data):
                 )
 
     return COLLECTED_TWEETS
+
+
+def collect_new_tweets(COLLECTED_TWEETS, json_response_next_token=None):
+    json_response = connect_to_endpoint(TWITTER_SEARCH_URL, json_response_next_token)
+    json_response_data, json_response_next_token = get_response_components(json_response)
+    COLLECTED_TWEETS = process_response(COLLECTED_TWEETS, json_response_data)
+    return COLLECTED_TWEETS, json_response, json_response_next_token
+
+
+def get_collected_tweets():
+    previous_data_frame = read_from_csv_collected_tweets()
+    if previous_data_frame is None:
+        COLLECTED_TWEETS = []
+    else:
+        COLLECTED_TWEETS = previous_data_frame.values.tolist()
+    return COLLECTED_TWEETS
+
+
+def append_to_files_all(COLLECTED_TWEETS, json_response):
+    dataframe = get_tweets_dataframe(COLLECTED_TWEETS)
+    append_to_csv(dataframe)
+    try:
+        append_to_json(json_response['data'], out_file=OUT_FILE_JSON)
+    except KeyError:
+        append_to_json(None, out_file=OUT_FILE_JSON)
+
+
+def main():
+    COLLECTED_TWEETS = get_collected_tweets()
+
+    COLLECTED_TWEETS, json_response, json_response_next_token = collect_new_tweets(COLLECTED_TWEETS)
+    while json_response_next_token:
+        COLLECTED_TWEETS, json_response, json_response_next_token = collect_new_tweets(COLLECTED_TWEETS,
+                                                                                       json_response_next_token)
+        if len(COLLECTED_TWEETS) > 1200:
+            break
+
+    append_to_files_all(COLLECTED_TWEETS, json_response)
 
 
 if __name__ == '__main__':
