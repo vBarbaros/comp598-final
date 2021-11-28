@@ -14,7 +14,7 @@ TWITTER_SEARCH_URL = 'https://api.twitter.com/2/tweets/search/recent'
 BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
 TWEET_THRESHOLD = 12000
-USE_FILTER = 3
+USE_FILTER = 2
 
 
 def get_file_paths(filter_type):
@@ -174,8 +174,7 @@ def get_collected_tweets(out_file_csv):
     return COLLECTED_TWEETS
 
 
-def append_to_files_all(tweet_data, dict_data, out_file_csv, out_file_json):
-    dataframe = get_tweets_dataframe(tweet_data)
+def append_to_files_all(dataframe, dict_data, out_file_csv, out_file_json):
     append_to_csv(dataframe, out_file_csv)
     if dict_data is not None:
         append_to_json(dict_data, out_file=out_file_json)
@@ -204,10 +203,12 @@ def main():
     COLLECTED_TWEETS = get_collected_tweets(OUT_FILE_CSV)
 
     COLLECTED_TWEETS, json_response = collect(COLLECTED_TWEETS)
-    append_to_files_all(COLLECTED_TWEETS, None, OUT_FILE_CSV, OUT_FILE_JSON)
+    dataframe = get_tweets_dataframe(COLLECTED_TWEETS)
+    append_to_files_all(dataframe, None, OUT_FILE_CSV, OUT_FILE_JSON)
 
     COLLECTED_TWEETS_PROCESSED = preprocess_collected_tweets()
-    append_to_files_all(COLLECTED_TWEETS_PROCESSED, None, OUT_FILE_FILTERED_CSV, OUT_FILE_FILTERED_JSON)
+    dataframe = get_tweets_dataframe(COLLECTED_TWEETS_PROCESSED)
+    append_to_files_all(dataframe, None, OUT_FILE_FILTERED_CSV, OUT_FILE_FILTERED_JSON)
 
 
 if __name__ == '__main__':
