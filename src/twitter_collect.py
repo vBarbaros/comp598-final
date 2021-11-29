@@ -14,7 +14,7 @@ TWITTER_SEARCH_URL = 'https://api.twitter.com/2/tweets/search/recent'
 BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
 TWEET_THRESHOLD = 12000
-USE_FILTER = 2
+USE_FILTER = 3
 
 
 def get_file_paths(filter_type):
