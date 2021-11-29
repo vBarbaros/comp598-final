@@ -13,8 +13,8 @@ load_dotenv(find_dotenv())
 TWITTER_SEARCH_URL = 'https://api.twitter.com/2/tweets/search/recent'
 BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
-TWEET_THRESHOLD = 12000
-USE_FILTER = 3
+TWEET_THRESHOLD = 5000
+USE_FILTER = 2
 
 
 def get_file_paths(filter_type):
@@ -25,11 +25,11 @@ def get_file_paths(filter_type):
         OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_by_keywords_filtered.json'
         SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) lang:en -is:retweet -is:reply'
     elif filter_type == 2:
-        OUT_FILE_JSON = 'data/twitter_dump_replies_cbc_only.json'
-        OUT_FILE_CSV = 'data/twitter_dump_replies_cbc_only.csv'
-        OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_replies_cbc_only_filtered.csv'
-        OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_replies_cbc_only_filtered.json'
-        SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CBCNews OR @CBCCanada OR @CdnPressNews OR @CBCAlerts) lang:en is:reply'
+        OUT_FILE_JSON = 'data/twitter_dump_replies_news_channels_only.json'
+        OUT_FILE_CSV = 'data/twitter_dump_replies_news_channels_only.csv'
+        OUT_FILE_FILTERED_CSV = 'data/processed/twitter_dump_replies_news_channels_only_filtered.csv'
+        OUT_FILE_FILTERED_JSON = 'data/processed/twitter_dump_replies_news_channels_only_filtered.json'
+        SEARCH_QUERY = 'vaccine (pfzier OR moderna OR JohnsonAndJohnson OR vaccine OR vaccination) (@CBCNews OR @CBCCanada OR @CdnPressNews OR @CBCAlerts OR @nationalpost OR @CdnPressNews OR @globeandmail) lang:en is:reply'
     elif filter_type == 3:
         OUT_FILE_JSON = 'data/twitter_dump_replies_gvnmt_only.json'
         OUT_FILE_CSV = 'data/twitter_dump_replies_gvnmt_only.csv'
