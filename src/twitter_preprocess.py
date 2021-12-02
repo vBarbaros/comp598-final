@@ -39,7 +39,10 @@ def write_to_csv_collected_tweets(dataframe):
 
 def today_record(twitter_data):
     for index, row in twitter_data.iterrows():
-        time = datetime.strptime(row['created_at'], '%Y-%m-%dT%H:%M:%S.000Z')
+        try:
+            time = datetime.strptime(row['created_at'], '%Y-%m-%dT%H:%M:%S.000Z')
+        except ValueError:
+            continue
         if time.date() != datetime.today().date():
             twitter_data = twitter_data.drop(index)
     return twitter_data
