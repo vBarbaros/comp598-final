@@ -3,12 +3,14 @@ from pathlib import Path
 from twitter_collect import get_file_paths, read_from_csv_collected_tweets, append_to_csv
 
 SAMPLE_SIZE = 50
-USE_FILTER = 3
-OUT_FILE_JSON, OUT_FILE_CSV, OUT_FILE_FILTERED_CSV, OUT_FILE_FILTERED_JSON, SEARCH_QUERY = get_file_paths(USE_FILTER)
 
 parentdir = Path(__file__).parents[1]
 
-def main():
+def main(USE_FILTER, FILE_PREFIX):
+    global OUT_FILE_JSON, OUT_FILE_CSV, OUT_FILE_FILTERED_CSV, OUT_FILE_FILTERED_JSON, SEARCH_QUERY
+    OUT_FILE_JSON, OUT_FILE_CSV, OUT_FILE_FILTERED_CSV, OUT_FILE_FILTERED_JSON, SEARCH_QUERY = get_file_paths(
+        USE_FILTER, FILE_PREFIX)
+
     df = read_from_csv_collected_tweets(OUT_FILE_FILTERED_CSV)
     df_sample = None
     if df.shape[0] > SAMPLE_SIZE:
@@ -25,4 +27,18 @@ def main():
     append_to_csv(df_main_cols, 'data/annotated/' + file_name + '.csv')
 
 if __name__ == '__main__':
-    main()
+    print()
+    # November 29 collected - no prefix
+    # for i in [2, 3]:
+    #     print(f"\nUsing filter type [{i}]")
+    #     main(i, '')
+
+    # for i in [(1, 'key words channel')]:
+    # for i in [(2, 'news_cannels'), (3, 'official organisations channel')]:
+    #     print(f"\nUsing filter type - {i}")
+    #     main(i[0], 'nov_30_')
+
+    # for i in [(1, 'key words channel')]:
+    # for i in [(2, 'news_cannels'), (3, 'official organisations channel')]:
+    #     print(f"\nUsing filter type [{i}]")
+    #     main(i[0], 'dec_01_')
