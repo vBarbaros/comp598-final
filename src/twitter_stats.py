@@ -49,35 +49,35 @@ def generate_stats_per_label():
 
     dict_stats_per_label = {
         'sentiment': {
-            'pos': [df_pos_only, "{:.4f}".format(df_pos_only / float(df_pos_only + df_neg_only + df_neut_only))],
-            'neg': [df_neg_only, "{:.4f}".format(df_neg_only / float(df_pos_only + df_neg_only + df_neut_only))],
-            'neut': [df_neut_only, "{:.4f}".format(df_neut_only / float(df_pos_only + df_neg_only + df_neut_only))],
+            'pos': [df_pos_only, "{:.4f}".format(df_pos_only / float(df_pos_only + df_neg_only + df_neut_only)*100)],
+            'neg': [df_neg_only, "{:.4f}".format(df_neg_only / float(df_pos_only + df_neg_only + df_neut_only)*100)],
+            'neut': [df_neut_only, "{:.4f}".format(df_neut_only / float(df_pos_only + df_neg_only + df_neut_only)*100)],
             'sum': df_pos_only + df_neg_only + df_neut_only
         },
         'labels': {
-            'covid-controversy': [df_controversy_only, "{:.4f}".format(df_controversy_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only))],
-            'covid-new-variant': [df_new_variant_only, "{:.4f}".format(df_new_variant_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only))],
-            'pandemic-legal': [df_legal_only, "{:.4f}".format(df_legal_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only))],
-            'covid-logistics': [df_logistics_only, "{:.4f}".format(df_logistics_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only))],
-            'vax-efficiency': [df_efficiency_only, "{:.4f}".format(df_efficiency_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only))],
+            'covid-controversy': [df_controversy_only, "{:.4f}".format(df_controversy_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only)*100)],
+            'covid-new-variant': [df_new_variant_only, "{:.4f}".format(df_new_variant_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only)*100)],
+            'pandemic-legal': [df_legal_only, "{:.4f}".format(df_legal_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only)*100)],
+            'covid-logistics': [df_logistics_only, "{:.4f}".format(df_logistics_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only)*100)],
+            'vax-efficiency': [df_efficiency_only, "{:.4f}".format(df_efficiency_only / float(df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only)*100)],
             'sum': df_controversy_only + df_new_variant_only + df_legal_only + df_logistics_only + df_efficiency_only
         },
         'ca-related': {
-            'ca': [df_ca_only, "{:.4f}".format(df_ca_only / float(df_ca_only + df_non_ca_only + df_na_only))],
-            'non-ca': [df_non_ca_only, "{:.4f}".format(df_non_ca_only / float(df_ca_only + df_non_ca_only + df_na_only))],
-            'na': [df_na_only, "{:.4f}".format(df_na_only / float(df_ca_only + df_non_ca_only + df_na_only))],
+            'ca': [df_ca_only, "{:.4f}".format(df_ca_only / float(df_ca_only + df_non_ca_only + df_na_only)*100)],
+            'non-ca': [df_non_ca_only, "{:.4f}".format(df_non_ca_only / float(df_ca_only + df_non_ca_only + df_na_only)*100)],
+            'na': [df_na_only, "{:.4f}".format(df_na_only / float(df_ca_only + df_non_ca_only + df_na_only)*100)],
             'sum': df_ca_only + df_non_ca_only + df_na_only
         },
         'day': {
-            '01-dec': [df_01_dec_only, "{:.4f}".format(df_01_dec_only / float(df_01_dec_only + df_30_nov_only + df_29_nov_only))],
-            '30-nov': [df_30_nov_only, "{:.4f}".format(df_30_nov_only / float(df_01_dec_only + df_30_nov_only + df_29_nov_only))],
-            '29-nov': [df_29_nov_only, "{:.4f}".format(df_29_nov_only / float(df_01_dec_only + df_30_nov_only + df_29_nov_only))],
+            '01-dec': [df_01_dec_only, "{:.4f}".format(df_01_dec_only / float(df_01_dec_only + df_30_nov_only + df_29_nov_only)*100)],
+            '30-nov': [df_30_nov_only, "{:.4f}".format(df_30_nov_only / float(df_01_dec_only + df_30_nov_only + df_29_nov_only)*100)],
+            '29-nov': [df_29_nov_only, "{:.4f}".format(df_29_nov_only / float(df_01_dec_only + df_30_nov_only + df_29_nov_only)*100)],
             'sum': df_01_dec_only + df_30_nov_only + df_29_nov_only
         },
         'filter-type': {
-            'gvnmt': [df_gvnmt_only, "{:.4f}".format(df_gvnmt_only / float(df_gvnmt_only + df_keyword_only + df_news_only))],
-            'keyword': [df_keyword_only, "{:.4f}".format(df_keyword_only / float(df_gvnmt_only + df_keyword_only + df_news_only))],
-            'news': [df_news_only, "{:.4f}".format(df_news_only / float(df_gvnmt_only + df_keyword_only + df_news_only))],
+            'gvnmt': [df_gvnmt_only, "{:.4f}".format(df_gvnmt_only / float(df_gvnmt_only + df_keyword_only + df_news_only)*100)],
+            'keyword': [df_keyword_only, "{:.4f}".format(df_keyword_only / float(df_gvnmt_only + df_keyword_only + df_news_only)*100)],
+            'news': [df_news_only, "{:.4f}".format(df_news_only / float(df_gvnmt_only + df_keyword_only + df_news_only)*100)],
             'sum': df_gvnmt_only + df_keyword_only + df_news_only
         }
     }
@@ -142,88 +142,85 @@ def generate_stats_per_day():
     dict_stats_per_day = {
         '29_nov': {
             'filter-type': {
-                'gvnmt': [df_29_nov_gvnmt, "{:.4f}".format(df_29_nov_news / float(df_29_nov_gvnmt + df_29_nov_keyword + df_29_nov_news))],
-                'keyword': [df_29_nov_keyword, "{:.4f}".format(df_29_nov_keyword / float(df_29_nov_gvnmt + df_29_nov_keyword + df_29_nov_news))],
-                'news': [df_29_nov_news, "{:.4f}".format(df_29_nov_news / float(df_29_nov_gvnmt + df_29_nov_keyword + df_29_nov_news))],
+                'gvnmt': [df_29_nov_gvnmt, "{:.4f}".format(df_29_nov_news / float(df_29_nov_gvnmt + df_29_nov_keyword + df_29_nov_news)*100)],
+                'keyword': [df_29_nov_keyword, "{:.4f}".format(df_29_nov_keyword / float(df_29_nov_gvnmt + df_29_nov_keyword + df_29_nov_news)*100)],
+                'news': [df_29_nov_news, "{:.4f}".format(df_29_nov_news / float(df_29_nov_gvnmt + df_29_nov_keyword + df_29_nov_news)*100)],
                 'sum': df_29_nov_gvnmt + df_29_nov_keyword + df_29_nov_news
             },
             'ca-related': {
-                'ca': [df_29_nov_ca, "{:.4f}".format(df_29_nov_ca / float(df_29_nov_ca + df_29_nov_non_ca + df_29_nov_na))],
-                'non-ca': [df_29_nov_non_ca, "{:.4f}".format(df_29_nov_non_ca / float(df_29_nov_ca + df_29_nov_non_ca + df_29_nov_na))],
-                'na': [df_29_nov_na,"{:.4f}".format(df_29_nov_na / float(df_29_nov_ca + df_29_nov_non_ca + df_29_nov_na))],
+                'ca': [df_29_nov_ca, "{:.4f}".format(df_29_nov_ca / float(df_29_nov_ca + df_29_nov_non_ca + df_29_nov_na)*100)],
+                'non-ca': [df_29_nov_non_ca, "{:.4f}".format(df_29_nov_non_ca / float(df_29_nov_ca + df_29_nov_non_ca + df_29_nov_na)*100)],
+                'na': [df_29_nov_na,"{:.4f}".format(df_29_nov_na / float(df_29_nov_ca + df_29_nov_non_ca + df_29_nov_na)*100)],
                 'sum': df_29_nov_ca + df_29_nov_non_ca + df_29_nov_na
             },
             'sentiment': {
-                'pos': [df_29_nov_pos,"{:.4f}".format(df_29_nov_pos / float(df_29_nov_pos + df_29_nov_neg + df_29_nov_neut))],
-                'neg': [df_29_nov_neg,"{:.4f}".format(df_29_nov_neg / float(df_29_nov_pos + df_29_nov_neg + df_29_nov_neut))],
-                'neut': [df_29_nov_neut, "{:.4f}".format(df_29_nov_neut / float(df_29_nov_pos + df_29_nov_neg + df_29_nov_neut))],
+                'pos': [df_29_nov_pos,"{:.4f}".format(df_29_nov_pos / float(df_29_nov_pos + df_29_nov_neg + df_29_nov_neut)*100)],
+                'neg': [df_29_nov_neg,"{:.4f}".format(df_29_nov_neg / float(df_29_nov_pos + df_29_nov_neg + df_29_nov_neut)*100)],
+                'neut': [df_29_nov_neut, "{:.4f}".format(df_29_nov_neut / float(df_29_nov_pos + df_29_nov_neg + df_29_nov_neut)*100)],
                 'sum': df_29_nov_pos + df_29_nov_neg + df_29_nov_neut
             },
             'labels': {
-                'covid-controversy': [df_29_nov_controversy, "{:.4f}".format(df_29_nov_controversy / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency))],
-                'covid-new-variant': [df_29_nov_new_variant, "{:.4f}".format(df_29_nov_new_variant / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency))],
-                'pandemic-legal': [df_29_nov_legal, "{:.4f}".format(df_29_nov_legal / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency))],
-                'pandemic-logistics': [df_29_nov_logistics, "{:.4f}".format(df_29_nov_logistics / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency))],
-                'vax-efficiency': [df_29_nov_efficiency, "{:.4f}".format(df_29_nov_efficiency / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency))],
+                'covid-controversy': [df_29_nov_controversy, "{:.4f}".format(df_29_nov_controversy / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency)*100)],
+                'covid-new-variant': [df_29_nov_new_variant, "{:.4f}".format(df_29_nov_new_variant / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency)*100)],
+                'pandemic-legal': [df_29_nov_legal, "{:.4f}".format(df_29_nov_legal / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency)*100)],
+                'pandemic-logistics': [df_29_nov_logistics, "{:.4f}".format(df_29_nov_logistics / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency)*100)],
+                'vax-efficiency': [df_29_nov_efficiency, "{:.4f}".format(df_29_nov_efficiency / float(df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency)*100)],
                 'sum': df_29_nov_controversy + df_29_nov_new_variant + df_29_nov_legal + df_29_nov_logistics + df_29_nov_efficiency
             }
         },
         '30_nov': {
             'filter-type': {
-                'gvnmt': [df_30_nov_gvnmt, "{:.4f}".format(
-                    df_30_nov_gvnmt / float(df_30_nov_gvnmt + df_30_nov_keyword + df_30_nov_news))],
-                'keyword': [df_30_nov_keyword, "{:.4f}".format(
-                    df_30_nov_keyword / float(df_30_nov_gvnmt + df_30_nov_keyword + df_30_nov_news))],
-                'news': [df_30_nov_news,
-                         "{:.4f}".format(df_30_nov_news / float(df_30_nov_gvnmt + df_30_nov_keyword + df_30_nov_news))],
+                'gvnmt': [df_30_nov_gvnmt, "{:.4f}".format(df_30_nov_gvnmt / float(df_30_nov_gvnmt + df_30_nov_keyword + df_30_nov_news)*100)],
+                'keyword': [df_30_nov_keyword, "{:.4f}".format(df_30_nov_keyword / float(df_30_nov_gvnmt + df_30_nov_keyword + df_30_nov_news)*100)],
+                'news': [df_30_nov_news, "{:.4f}".format(df_30_nov_news / float(df_30_nov_gvnmt + df_30_nov_keyword + df_30_nov_news)*100)],
                 'sum': df_30_nov_gvnmt + df_30_nov_keyword + df_30_nov_news
             },
             'ca-related': {
-                'ca': [df_30_nov_ca, "{:.4f}".format(df_30_nov_ca / float(df_30_nov_ca + df_30_nov_non_ca + df_30_nov_na))],
-                'non-ca': [df_30_nov_non_ca, "{:.4f}".format(df_30_nov_non_ca / float(df_30_nov_ca + df_30_nov_non_ca + df_30_nov_na))],
-                'na': [df_30_nov_na, "{:.4f}".format(df_30_nov_na / float(df_30_nov_ca + df_30_nov_non_ca + df_30_nov_na))],
+                'ca': [df_30_nov_ca, "{:.4f}".format(df_30_nov_ca / float(df_30_nov_ca + df_30_nov_non_ca + df_30_nov_na)*100)],
+                'non-ca': [df_30_nov_non_ca, "{:.4f}".format(df_30_nov_non_ca / float(df_30_nov_ca + df_30_nov_non_ca + df_30_nov_na)*100)],
+                'na': [df_30_nov_na, "{:.4f}".format(df_30_nov_na / float(df_30_nov_ca + df_30_nov_non_ca + df_30_nov_na)*100)],
                 'sum': df_30_nov_ca + df_30_nov_non_ca + df_30_nov_na
             },
             'sentiment': {
-                'pos': [df_30_nov_pos, "{:.4f}".format(df_30_nov_pos / float(df_30_nov_pos + df_30_nov_neg + df_30_nov_neut))],
-                'neg': [df_30_nov_neg, "{:.4f}".format(df_30_nov_neg / float(df_30_nov_pos + df_30_nov_neg + df_30_nov_neut))],
-                'neut': [df_30_nov_neut, "{:.4f}".format(df_30_nov_neut / float(df_30_nov_pos + df_30_nov_neg + df_30_nov_neut))],
+                'pos': [df_30_nov_pos, "{:.4f}".format(df_30_nov_pos / float(df_30_nov_pos + df_30_nov_neg + df_30_nov_neut)*100)],
+                'neg': [df_30_nov_neg, "{:.4f}".format(df_30_nov_neg / float(df_30_nov_pos + df_30_nov_neg + df_30_nov_neut)*100)],
+                'neut': [df_30_nov_neut, "{:.4f}".format(df_30_nov_neut / float(df_30_nov_pos + df_30_nov_neg + df_30_nov_neut)*100)],
                 'sum': df_30_nov_pos + df_30_nov_neg + df_30_nov_neut
             },
             'labels': {
-                'covid-controversy': [df_30_nov_controversy, "{:.4f}".format(df_30_nov_controversy / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency))],
-                'covid-new-variant': [df_30_nov_new_variant, "{:.4f}".format(df_30_nov_new_variant / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency))],
-                'pandemic-legal': [df_30_nov_legal, "{:.4f}".format(df_30_nov_legal / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency))],
-                'pandemic-logistics': [df_30_nov_logistics, "{:.4f}".format(df_30_nov_logistics / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency))],
-                'vax-efficiency': [df_30_nov_efficiency, "{:.4f}".format(df_30_nov_efficiency / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency))],
+                'covid-controversy': [df_30_nov_controversy, "{:.4f}".format(df_30_nov_controversy / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency)*100)],
+                'covid-new-variant': [df_30_nov_new_variant, "{:.4f}".format(df_30_nov_new_variant / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency)*100)],
+                'pandemic-legal': [df_30_nov_legal, "{:.4f}".format(df_30_nov_legal / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency)*100)],
+                'pandemic-logistics': [df_30_nov_logistics, "{:.4f}".format(df_30_nov_logistics / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency)*100)],
+                'vax-efficiency': [df_30_nov_efficiency, "{:.4f}".format(df_30_nov_efficiency / float(df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency)*100)],
                 'sum': df_30_nov_controversy + df_30_nov_new_variant + df_30_nov_legal + df_30_nov_logistics + df_30_nov_efficiency
             }
         },
         '01_dec': {
             'filter-type': {
-                'gvnmt': [df_01_dec_gvnmt, "{:.4f}".format(df_01_dec_gvnmt / float(df_01_dec_gvnmt + df_01_dec_keyword + df_01_dec_news))],
-                'keyword': [df_01_dec_keyword, "{:.4f}".format(df_01_dec_keyword / float(df_01_dec_gvnmt + df_01_dec_keyword + df_01_dec_news))],
-                'news': [df_01_dec_news, "{:.4f}".format(df_01_dec_news / float(df_01_dec_gvnmt + df_01_dec_keyword + df_01_dec_news))],
+                'gvnmt': [df_01_dec_gvnmt, "{:.4f}".format(df_01_dec_gvnmt / float(df_01_dec_gvnmt + df_01_dec_keyword + df_01_dec_news)*100)],
+                'keyword': [df_01_dec_keyword, "{:.4f}".format(df_01_dec_keyword / float(df_01_dec_gvnmt + df_01_dec_keyword + df_01_dec_news)*100)],
+                'news': [df_01_dec_news, "{:.4f}".format(df_01_dec_news / float(df_01_dec_gvnmt + df_01_dec_keyword + df_01_dec_news)*100)],
                 'sum': df_01_dec_gvnmt + df_01_dec_keyword + df_01_dec_news
             },
             'ca-related': {
-                'ca': [df_01_dec_ca, "{:.4f}".format(df_01_dec_ca / float(df_01_dec_ca + df_01_dec_non_ca + df_01_dec_na))],
-                'non-ca': [df_01_dec_non_ca, "{:.4f}".format(df_01_dec_non_ca / float(df_01_dec_ca + df_01_dec_non_ca + df_01_dec_na))],
-                'na': [df_01_dec_na, "{:.4f}".format(df_01_dec_na / float(df_01_dec_ca + df_01_dec_non_ca + df_01_dec_na))],
+                'ca': [df_01_dec_ca, "{:.4f}".format(df_01_dec_ca / float(df_01_dec_ca + df_01_dec_non_ca + df_01_dec_na)*100)],
+                'non-ca': [df_01_dec_non_ca, "{:.4f}".format(df_01_dec_non_ca / float(df_01_dec_ca + df_01_dec_non_ca + df_01_dec_na)*100)],
+                'na': [df_01_dec_na, "{:.4f}".format(df_01_dec_na / float(df_01_dec_ca + df_01_dec_non_ca + df_01_dec_na)*100)],
                 'sum': df_01_dec_ca + df_01_dec_non_ca + df_01_dec_na
             },
             'sentiment': {
-                'pos': [df_01_dec_pos, "{:.4f}".format(df_01_dec_pos / float(df_01_dec_pos + df_01_dec_neg + df_01_dec_neut))],
-                'neg': [df_01_dec_neg, "{:.4f}".format(df_01_dec_neg / float(df_01_dec_pos + df_01_dec_neg + df_01_dec_neut))],
-                'neut': [df_01_dec_neut, "{:.4f}".format(df_01_dec_neut / float(df_01_dec_pos + df_01_dec_neg + df_01_dec_neut))],
+                'pos': [df_01_dec_pos, "{:.4f}".format(df_01_dec_pos / float(df_01_dec_pos + df_01_dec_neg + df_01_dec_neut)*100)],
+                'neg': [df_01_dec_neg, "{:.4f}".format(df_01_dec_neg / float(df_01_dec_pos + df_01_dec_neg + df_01_dec_neut)*100)],
+                'neut': [df_01_dec_neut, "{:.4f}".format(df_01_dec_neut / float(df_01_dec_pos + df_01_dec_neg + df_01_dec_neut)*100)],
                 'sum': df_01_dec_pos + df_01_dec_neg + df_01_dec_neut
             },
             'labels': {
-                'covid-controversy': [df_01_dec_controversy, "{:.4f}".format(df_01_dec_controversy / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency))],
-                'covid-new-variant': [df_01_dec_new_variant, "{:.4f}".format(df_01_dec_new_variant / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency))],
-                'pandemic-legal': [df_01_dec_legal, "{:.4f}".format(df_01_dec_legal / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency))],
-                'pandemic-logistics': [df_01_dec_logistics, "{:.4f}".format(df_01_dec_logistics / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency))],
-                'vax-efficiency': [df_01_dec_efficiency, "{:.4f}".format(df_01_dec_efficiency / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency))],
+                'covid-controversy': [df_01_dec_controversy, "{:.4f}".format(df_01_dec_controversy / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency)*100)],
+                'covid-new-variant': [df_01_dec_new_variant, "{:.4f}".format(df_01_dec_new_variant / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency)*100)],
+                'pandemic-legal': [df_01_dec_legal, "{:.4f}".format(df_01_dec_legal / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency)*100)],
+                'pandemic-logistics': [df_01_dec_logistics, "{:.4f}".format(df_01_dec_logistics / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency)*100)],
+                'vax-efficiency': [df_01_dec_efficiency, "{:.4f}".format(df_01_dec_efficiency / float(df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency)*100)],
                 'sum': df_01_dec_controversy + df_01_dec_new_variant + df_01_dec_legal + df_01_dec_logistics + df_01_dec_efficiency
             }
         }
@@ -233,7 +230,7 @@ def generate_stats_per_day():
 
 if __name__ == '__main__':
     df = read_from_csv_collected_tweets(ALL_TWEETS_CSV)
-    # generate_stats_per_label()
-    # generate_stats_per_day()
+    generate_stats_per_label()
+    generate_stats_per_day()
 
     print()
