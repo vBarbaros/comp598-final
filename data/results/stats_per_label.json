@@ -1,0 +1,29 @@
+{
+    "sentiment": {
+        "pos": 344,
+        "neg": 489,
+        "neut": 167
+    },
+    "labels": {
+        "covid-controversy": 338,
+        "covid-new-variant": 66,
+        "pandemic-legal": 146,
+        "covid-logistics": 264,
+        "vax-efficiency": 186
+    },
+    "ca_related": {
+        "ca": 288,
+        "non-ca": 264,
+        "na": 448
+    },
+    "day": {
+        "01-dec": 350,
+        "30-nov": 350,
+        "29-nov": 300
+    },
+    "filter-type": {
+        "gvnmt": 150,
+        "keyword": 700,
+        "news": 150
+    }
+}

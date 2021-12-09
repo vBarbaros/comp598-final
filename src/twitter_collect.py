@@ -64,14 +64,14 @@ def connect_to_endpoint(url, next_token=None):
     return response.json()
 
 
-def append_to_json(tmp_dict, out_file):
+def write_to_json(tmp_dict, out_file, write_param='a'):
     sample_file = os.path.join(parentdir, out_file)
 
     out_dir = os.path.split(sample_file)
     if not os.path.isdir(out_dir[0]):
         os.makedirs(out_dir[0])
 
-    f = open(sample_file, 'a')
+    f = open(sample_file, write_param)
     f.write(json.dumps(tmp_dict, indent=4) + '\n')
     f.close()
 
@@ -175,7 +175,7 @@ def get_collected_tweets(out_file_csv):
 def append_to_files_all(dataframe, dict_data, out_file_csv, out_file_json):
     append_to_csv(dataframe, out_file_csv)
     if dict_data is not None:
-        append_to_json(dict_data, out_file=out_file_json)
+        write_to_json(dict_data, out_file=out_file_json)
 
 
 def collect(COLLECTED_TWEETS):
