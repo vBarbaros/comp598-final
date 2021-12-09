@@ -1,29 +1,85 @@
 {
     "sentiment": {
-        "pos": 344,
-        "neg": 489,
-        "neut": 167
+        "pos": [
+            344,
+            "0.3440"
+        ],
+        "neg": [
+            489,
+            "0.4890"
+        ],
+        "neut": [
+            167,
+            "0.1670"
+        ],
+        "sum": 1000
     },
     "labels": {
-        "covid-controversy": 338,
-        "covid-new-variant": 66,
-        "pandemic-legal": 146,
-        "covid-logistics": 264,
-        "vax-efficiency": 186
+        "covid-controversy": [
+            338,
+            "0.3380"
+        ],
+        "covid-new-variant": [
+            66,
+            "0.0660"
+        ],
+        "pandemic-legal": [
+            146,
+            "0.1460"
+        ],
+        "covid-logistics": [
+            264,
+            "0.2640"
+        ],
+        "vax-efficiency": [
+            186,
+            "0.1860"
+        ],
+        "sum": 1000
     },
-    "ca_related": {
-        "ca": 288,
-        "non-ca": 264,
-        "na": 448
+    "ca-related": {
+        "ca": [
+            288,
+            "0.2880"
+        ],
+        "non-ca": [
+            264,
+            "0.2640"
+        ],
+        "na": [
+            448,
+            "0.4480"
+        ],
+        "sum": 1000
     },
     "day": {
-        "01-dec": 350,
-        "30-nov": 350,
-        "29-nov": 300
+        "01-dec": [
+            350,
+            "0.3500"
+        ],
+        "30-nov": [
+            350,
+            "0.3500"
+        ],
+        "29-nov": [
+            300,
+            "0.3000"
+        ],
+        "sum": 1000
     },
     "filter-type": {
-        "gvnmt": 150,
-        "keyword": 700,
-        "news": 150
+        "gvnmt": [
+            150,
+            "0.1500"
+        ],
+        "keyword": [
+            700,
+            "0.7000"
+        ],
+        "news": [
+            150,
+            "0.1500"
+        ],
+        "sum": 1000
     }
 }
