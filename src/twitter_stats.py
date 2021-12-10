@@ -86,7 +86,7 @@ def generate_stats_per_label():
             'sum': df_gvnmt_only + df_keyword_only + df_news_only
         }
     }
-    write_to_json(dict_stats_per_label, 'data/results/stats_per_label.json', write_param='w')
+    write_to_json(dict_stats_per_label, 'data/results/stats_overall_separate_label_type.json', write_param='w')
 
 
 def generate_stats_per_day():
@@ -301,7 +301,7 @@ def generate_stats_per_filter_type():
                         "{:.4f}".format(df_gvnmt_pos / float(df_gvnmt_pos + df_gvnmt_neg + df_gvnmt_neut) * 100)],
                 'neg': [df_gvnmt_neg,
                         "{:.4f}".format(df_gvnmt_neg / float(df_gvnmt_pos + df_gvnmt_neg + df_gvnmt_neut) * 100)],
-                'na': [df_gvnmt_neut,
+                'neut': [df_gvnmt_neut,
                        "{:.4f}".format(df_gvnmt_neut / float(df_gvnmt_pos + df_gvnmt_neg + df_gvnmt_neut) * 100)],
                 'sum': df_gvnmt_pos + df_gvnmt_neg + df_gvnmt_neut
             },
@@ -336,7 +336,7 @@ def generate_stats_per_filter_type():
                 'neg': [df_keyword_neg,
                         "{:.4f}".format(
                             df_keyword_neg / float(df_keyword_pos + df_keyword_neg + df_keyword_neut) * 100)],
-                'na': [df_keyword_neut,
+                'neut': [df_keyword_neut,
                        "{:.4f}".format(
                            df_keyword_neut / float(df_keyword_pos + df_keyword_neg + df_keyword_neut) * 100)],
                 'sum': df_keyword_pos + df_keyword_neg + df_keyword_neut
@@ -373,7 +373,7 @@ def generate_stats_per_filter_type():
                 'neg': [df_news_neg,
                         "{:.4f}".format(
                             df_news_neg / float(df_news_pos + df_news_neg + df_news_neut) * 100)],
-                'na': [df_news_neut,
+                'neut': [df_news_neut,
                        "{:.4f}".format(
                            df_news_neut / float(df_news_pos + df_news_neg + df_news_neut) * 100)],
                 'sum': df_news_pos + df_news_neg + df_news_neut
@@ -406,11 +406,148 @@ def generate_stats_per_filter_type():
     write_to_json(dict_stats_per_filter_type, 'data/results/stats_per_filter_type.json', write_param='w')
 
 
+def generate_stats_per_covid_label():
+    df_controversy_pos = df.loc[(df['labels'] == 'covid-controversy') & (df['sentiment'] == 'pos')].copy().shape[0]
+    df_controversy_neg = df.loc[(df['labels'] == 'covid-controversy') & (df['sentiment'] == 'neg')].copy().shape[0]
+    df_controversy_neut = df.loc[(df['labels'] == 'covid-controversy') & (df['sentiment'] == 'neut')].copy().shape[0]
+    df_controversy_ca = df.loc[(df['labels'] == 'covid-controversy') & (df['ca_related'] == 'ca')].copy().shape[0]
+    df_controversy_non_ca = df.loc[(df['labels'] == 'covid-controversy') & (df['ca_related'] == 'non-ca')].copy().shape[0]
+    df_controversy_na = df.loc[(df['labels'] == 'covid-controversy') & (df['ca_related'] == 'na')].copy().shape[0]
+    df_new_variant_pos = df.loc[(df['labels'] == 'covid-new-variant') & (df['sentiment'] == 'pos')].copy().shape[0]
+    df_new_variant_neg = df.loc[(df['labels'] == 'covid-new-variant') & (df['sentiment'] == 'neg')].copy().shape[0]
+    df_new_variant_neut = df.loc[(df['labels'] == 'covid-new-variant') & (df['sentiment'] == 'neut')].copy().shape[0]
+    df_new_variant_ca = df.loc[(df['labels'] == 'covid-new-variant') & (df['ca_related'] == 'ca')].copy().shape[0]
+    df_new_variant_non_ca = df.loc[(df['labels'] == 'covid-new-variant') & (df['ca_related'] == 'non-ca')].copy().shape[0]
+    df_new_variant_na = df.loc[(df['labels'] == 'covid-new-variant') & (df['ca_related'] == 'na')].copy().shape[0]
+    df_legal_pos = df.loc[(df['labels'] == 'pandemic-legal') & (df['sentiment'] == 'pos')].copy().shape[0]
+    df_legal_neg = df.loc[(df['labels'] == 'pandemic-legal') & (df['sentiment'] == 'neg')].copy().shape[0]
+    df_legal_neut = df.loc[(df['labels'] == 'pandemic-legal') & (df['sentiment'] == 'neut')].copy().shape[0]
+    df_legal_ca = df.loc[(df['labels'] == 'pandemic-legal') & (df['ca_related'] == 'ca')].copy().shape[0]
+    df_legal_non_ca = df.loc[(df['labels'] == 'pandemic-legal') & (df['ca_related'] == 'non-ca')].copy().shape[0]
+    df_legal_na = df.loc[(df['labels'] == 'pandemic-legal') & (df['ca_related'] == 'na')].copy().shape[0]
+    df_logistics_pos = df.loc[(df['labels'] == 'pandemic-logistics') & (df['sentiment'] == 'pos')].copy().shape[0]
+    df_logistics_neg = df.loc[(df['labels'] == 'pandemic-logistics') & (df['sentiment'] == 'neg')].copy().shape[0]
+    df_logistics_neut = df.loc[(df['labels'] == 'pandemic-logistics') & (df['sentiment'] == 'neut')].copy().shape[0]
+    df_logistics_ca = df.loc[(df['labels'] == 'pandemic-logistics') & (df['ca_related'] == 'ca')].copy().shape[0]
+    df_logistics_non_ca = df.loc[(df['labels'] == 'pandemic-logistics') & (df['ca_related'] == 'non-ca')].copy().shape[0]
+    df_logistics_na = df.loc[(df['labels'] == 'pandemic-logistics') & (df['ca_related'] == 'na')].copy().shape[0]
+    df_efficiency_pos = df.loc[(df['labels'] == 'vax-efficiency') & (df['sentiment'] == 'pos')].copy().shape[0]
+    df_efficiency_neg = df.loc[(df['labels'] == 'vax-efficiency') & (df['sentiment'] == 'neg')].copy().shape[0]
+    df_efficiency_neut = df.loc[(df['labels'] == 'vax-efficiency') & (df['sentiment'] == 'neut')].copy().shape[0]
+    df_efficiency_ca = df.loc[(df['labels'] == 'vax-efficiency') & (df['ca_related'] == 'ca')].copy().shape[0]
+    df_efficiency_non_ca = df.loc[(df['labels'] == 'vax-efficiency') & (df['ca_related'] == 'non-ca')].copy().shape[0]
+    df_efficiency_na = df.loc[(df['labels'] == 'vax-efficiency') & (df['ca_related'] == 'na')].copy().shape[0]
+    dict_stats_per_covid_label = {
+        'covid-controversy': {
+            'sentiment': {
+                'pos': [df_controversy_pos,
+                        "{:.4f}".format(df_controversy_pos / float(df_controversy_pos + df_controversy_neg + df_controversy_neut) * 100)],
+                'neg': [df_controversy_neg,
+                        "{:.4f}".format(df_controversy_neg / float(df_controversy_pos + df_controversy_neg + df_controversy_neut) * 100)],
+                'neut': [df_controversy_neut,
+                         "{:.4f}".format(df_controversy_neut / float(df_controversy_pos + df_controversy_neg + df_controversy_neut) * 100)],
+                'sum': df_controversy_pos + df_controversy_neg + df_controversy_neut
+            },
+            'ca-related': {
+                'ca': [df_controversy_ca,
+                       "{:.4f}".format(df_controversy_ca / float(df_controversy_ca + df_controversy_non_ca + df_controversy_na) * 100)],
+                'non-ca': [df_controversy_non_ca,
+                           "{:.4f}".format(df_controversy_non_ca / float(df_controversy_ca + df_controversy_non_ca + df_controversy_na) * 100)],
+                'na': [df_controversy_na,
+                       "{:.4f}".format(df_controversy_na / float(df_controversy_ca + df_controversy_non_ca + df_controversy_na) * 100)],
+                'sum': df_controversy_ca + df_controversy_non_ca + df_controversy_na
+            }
+        },
+        'covid-new-variant': {
+            'sentiment': {
+                'pos': [df_new_variant_pos,
+                        "{:.4f}".format(df_new_variant_pos / float(df_new_variant_pos + df_new_variant_neg + df_new_variant_neut) * 100)],
+                'neg': [df_new_variant_neg,
+                        "{:.4f}".format(df_new_variant_neg / float(df_new_variant_pos + df_new_variant_neg + df_new_variant_neut) * 100)],
+                'neut': [df_new_variant_neut,
+                         "{:.4f}".format(df_new_variant_neut / float(df_new_variant_pos + df_new_variant_neg + df_new_variant_neut) * 100)],
+                'sum': df_new_variant_pos + df_new_variant_neg + df_new_variant_neut
+            },
+            'ca-related': {
+                'ca': [df_new_variant_ca,
+                       "{:.4f}".format(df_new_variant_ca / float(df_new_variant_ca + df_new_variant_non_ca + df_new_variant_na) * 100)],
+                'non-ca': [df_new_variant_non_ca,
+                           "{:.4f}".format(df_new_variant_non_ca / float(df_new_variant_ca + df_new_variant_non_ca + df_new_variant_na) * 100)],
+                'na': [df_new_variant_na,
+                       "{:.4f}".format(df_new_variant_na / float(df_new_variant_ca + df_new_variant_non_ca + df_new_variant_na) * 100)],
+                'sum': df_new_variant_ca + df_new_variant_non_ca + df_new_variant_na
+            }
+        },
+        'pandemic-legal': {
+            'sentiment': {
+                'pos': [df_legal_pos,
+                        "{:.4f}".format(df_legal_pos / float(df_legal_pos + df_legal_neg + df_legal_neut) * 100)],
+                'neg': [df_legal_neg,
+                        "{:.4f}".format(df_legal_neg / float(df_legal_pos + df_legal_neg + df_legal_neut) * 100)],
+                'neut': [df_legal_neut,
+                         "{:.4f}".format(df_legal_neut / float(df_legal_pos + df_legal_neg + df_legal_neut) * 100)],
+                'sum': df_legal_pos + df_legal_neg + df_legal_neut
+            },
+            'ca-related': {
+                'ca': [df_legal_ca,
+                       "{:.4f}".format(df_legal_ca / float(df_legal_ca + df_legal_non_ca + df_legal_na) * 100)],
+                'non-ca': [df_legal_non_ca,
+                           "{:.4f}".format(df_legal_non_ca / float(df_legal_ca + df_legal_non_ca + df_legal_na) * 100)],
+                'neut': [df_legal_na,
+                         "{:.4f}".format(df_legal_na / float(df_legal_ca + df_legal_non_ca + df_legal_na) * 100)],
+                'sum': df_legal_ca + df_legal_non_ca + df_legal_na
+            }
+        },
+        'pandemic-logistics': {
+            'sentiment': {
+                'pos': [df_logistics_pos,
+                        "{:.4f}".format(df_logistics_pos / float(df_logistics_pos + df_logistics_neg + df_logistics_neut) * 100)],
+                'neg': [df_logistics_neg,
+                        "{:.4f}".format(df_logistics_neg / float(df_logistics_pos + df_logistics_neg + df_logistics_neut) * 100)],
+                'neut': [df_logistics_neut,
+                         "{:.4f}".format(df_logistics_neut / float(df_logistics_pos + df_logistics_neg + df_logistics_neut) * 100)],
+                'sum': df_logistics_pos + df_logistics_neg + df_logistics_neut
+            },
+            'ca-related': {
+                'ca': [df_logistics_ca,
+                       "{:.4f}".format(df_logistics_ca / float(df_logistics_ca + df_logistics_non_ca + df_logistics_na) * 100)],
+                'non-ca': [df_logistics_non_ca,
+                           "{:.4f}".format(df_logistics_non_ca / float(df_logistics_ca + df_logistics_non_ca + df_logistics_na) * 100)],
+                'na': [df_logistics_na,
+                       "{:.4f}".format(df_logistics_na / float(df_logistics_ca + df_logistics_non_ca + df_logistics_na) * 100)],
+                'sum': df_logistics_ca + df_logistics_non_ca + df_logistics_na
+            }
+        },
+        'vax-efficiency': {
+            'sentiment': {
+                'pos': [df_efficiency_pos,
+                        "{:.4f}".format(df_efficiency_pos / float(df_efficiency_pos + df_efficiency_neg + df_efficiency_neut) * 100)],
+                'neg': [df_efficiency_neg,
+                        "{:.4f}".format(df_efficiency_neg / float(df_efficiency_pos + df_efficiency_neg + df_efficiency_neut) * 100)],
+                'neut': [df_efficiency_neut,
+                         "{:.4f}".format(df_efficiency_neut / float(df_efficiency_pos + df_efficiency_neg + df_efficiency_neut) * 100)],
+                'sum': df_efficiency_pos + df_efficiency_neg + df_efficiency_neut
+            },
+            'ca-related': {
+                'ca': [df_efficiency_ca,
+                       "{:.4f}".format(df_efficiency_ca / float(df_efficiency_ca + df_efficiency_non_ca + df_efficiency_na) * 100)],
+                'non-ca': [df_efficiency_non_ca,
+                           "{:.4f}".format(df_efficiency_non_ca / float(df_efficiency_ca + df_efficiency_non_ca + df_efficiency_na) * 100)],
+                'na': [df_efficiency_na,
+                       "{:.4f}".format(df_efficiency_na / float(df_efficiency_ca + df_efficiency_non_ca + df_efficiency_na) * 100)],
+                'sum': df_efficiency_ca + df_efficiency_non_ca + df_efficiency_na
+            }
+        }
+    }
+    write_to_json(dict_stats_per_covid_label, 'data/results/stats_per_covid_label.json', write_param='w')
+
+
 if __name__ == '__main__':
     df = read_from_csv_collected_tweets(ALL_TWEETS_CSV)
+
     # generate_stats_per_label()
     # generate_stats_per_day()
-
-    generate_stats_per_filter_type()
+    # generate_stats_per_filter_type()
+    # generate_stats_per_covid_label()
 
     print()
