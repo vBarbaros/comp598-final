@@ -38,8 +38,19 @@ def plot_stats_bar(data, labels, x_label, y_label, title, xticks):
     ax.bar_label(rects1, padding=2)
     ax.bar_label(rects2, padding=2)
     ax.bar_label(rects3, padding=2)
-    # plt.show()
+
     fig.savefig('plots/' + title + '.png')
 
+
+def generate_simple_pie_plot(labels, sizes, explode, title):
+    fig, ax = plt.subplots()
+    ax.pie(sizes, explode=explode, labels=labels, autopct='%1.2f%%',
+            shadow=True, startangle=90)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    ax.set(aspect="equal", title=title)
+    fig.savefig('plots/PIE_PLOT_' + title + '.png')
+
+
 if __name__ == '__main__':
-    pass
+    dict_stats_per_filter = read_from_json('data/results/stats_per_filter_type.json')
+    print(json.dumps(dict_stats_per_filter, indent=4))
