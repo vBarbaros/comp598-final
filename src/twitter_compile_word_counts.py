@@ -9,6 +9,14 @@ import json
 ROUND_BY = 2
 
 parentdir = Path(__file__).parents[1]
+
+# NOA files - define only # as special char in tweet words ==> words containing initially # will be in the end counted as valid words
+# SPECIAL_CHARS = '()[],-.?!:;&#'
+
+# NOTAG_NOA files - define '#@' as special char in tweet words ==> words containing initially # or @ will be in the end counted as valid words
+# SPECIAL_CHARS = '()[],-.?!:;&#@'
+
+# normal files - the '#@' are not defined as special chars in tweet words ==> words containing initially # or @ will NOT BE counted as valid words
 SPECIAL_CHARS = '()[],-.?!:;&'
 
 
@@ -102,27 +110,27 @@ if __name__ == '__main__':
     #     ['data/results/word_frequency_per_filter_type_label_noa.json', 'filter_type', ['gvnmt', 'keyword', 'news']],
     #     ['data/results/word_frequency_per_collected_day_label_noa.json', 'day', ['01_dec', '30_nov', '29_nov']],
     #     ['data/results/word_frequency_per_ca_related_label_noa.json', 'ca_related', ['ca', 'non-ca', 'na']],
-    #     ['data/results/word_frequency_per_covid_labels_noa.json', 'labels', ['covid-controversy', 'vax-efficiency', 'pandemic-logistics', 'vax-efficiency', 'pandemic-legal']],
+    #     ['data/results/word_frequency_per_covid_labels_noa.json', 'labels', ['covid-controversy', 'vax-efficiency', 'pandemic-logistics', 'covid-new-variant', 'pandemic-legal']],
     #     ['data/results/word_frequency_per_sentiment_label_noa.json', 'sentiment', ['pos', 'neg', 'neut']]
     # ]
 
-    PARAMS_LIST = [
-        ['data/results/word_frequency_per_filter_type_label_notag_noa.json', 'filter_type', ['gvnmt', 'keyword', 'news']],
-        ['data/results/word_frequency_per_collected_day_label_notag_noa.json', 'day', ['01_dec', '30_nov', '29_nov']],
-        ['data/results/word_frequency_per_ca_related_label_notag_noa.json', 'ca_related', ['ca', 'non-ca', 'na']],
-        ['data/results/word_frequency_per_covid_labels_notag_noa.json', 'labels',
-         ['covid-controversy', 'vax-efficiency', 'pandemic-logistics', 'vax-efficiency', 'pandemic-legal']],
-        ['data/results/word_frequency_per_sentiment_label_notag_noa.json', 'sentiment', ['pos', 'neg', 'neut']]
-    ]
-
     # PARAMS_LIST = [
-    #     ['data/results/word_frequency_per_filter_type_label.json', 'filter_type', ['gvnmt', 'keyword', 'news']],
-    #     ['data/results/word_frequency_per_collected_day_label.json', 'day', ['01_dec', '30_nov', '29_nov']],
-    #     ['data/results/word_frequency_per_ca_related_label.json', 'ca_related', ['ca', 'non-ca', 'na']],
-    #     ['data/results/word_frequency_per_covid_labels.json', 'labels',
-    #      ['covid-controversy', 'vax-efficiency', 'pandemic-logistics', 'vax-efficiency', 'pandemic-legal']],
-    #     ['data/results/word_frequency_per_sentiment_label.json', 'sentiment', ['pos', 'neg', 'neut']]
+    #     ['data/results/word_frequency_per_filter_type_label_notag_noa.json', 'filter_type', ['gvnmt', 'keyword', 'news']],
+    #     ['data/results/word_frequency_per_collected_day_label_notag_noa.json', 'day', ['01_dec', '30_nov', '29_nov']],
+    #     ['data/results/word_frequency_per_ca_related_label_notag_noa.json', 'ca_related', ['ca', 'non-ca', 'na']],
+    #     ['data/results/word_frequency_per_covid_labels_notag_noa.json', 'labels',
+    #      ['covid-controversy', 'vax-efficiency', 'pandemic-logistics', 'covid-new-variant', 'pandemic-legal']],
+    #     ['data/results/word_frequency_per_sentiment_label_notag_noa.json', 'sentiment', ['pos', 'neg', 'neut']]
     # ]
+
+    PARAMS_LIST = [
+        ['data/results/word_frequency_per_filter_type_label.json', 'filter_type', ['gvnmt', 'keyword', 'news']],
+        ['data/results/word_frequency_per_collected_day_label.json', 'day', ['01_dec', '30_nov', '29_nov']],
+        ['data/results/word_frequency_per_ca_related_label.json', 'ca_related', ['ca', 'non-ca', 'na']],
+        ['data/results/word_frequency_per_covid_labels.json', 'labels',
+         ['covid-controversy', 'vax-efficiency', 'pandemic-logistics', 'covid-new-variant', 'pandemic-legal']],
+        ['data/results/word_frequency_per_sentiment_label.json', 'sentiment', ['pos', 'neg', 'neut']]
+    ]
 
     for params in PARAMS_LIST:
         input_csv_file = 'data/results/annotated_full_dataset.csv'
