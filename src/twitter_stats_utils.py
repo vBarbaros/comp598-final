@@ -45,12 +45,28 @@ def plot_stats_bar(data, labels, x_label, y_label, title, xticks):
 def generate_simple_pie_plot(labels, sizes, explode, title):
     fig, ax = plt.subplots()
     ax.pie(sizes, explode=explode, labels=labels, autopct='%1.2f%%',
-            shadow=True, startangle=90)
+           shadow=True, startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     ax.set(aspect="equal", title=title)
     fig.savefig('plots/PIE_PLOT_' + title + '.png')
 
 
+def generate_tfidf_bar_plot(tfidf_vals, words, label_name):
+    plt.rc('ytick', labelsize=11)  # fontsize of the tick labels
+    fig, ax = plt.subplots()
+
+    y_pos = np.arange(len(tfidf_vals))
+    title = 'Top ' + str(len(words)) + ' words for the label - [' + label_name + ']'
+    rect = ax.barh(y_pos, tfidf_vals, align='center')
+    ax.set_yticks(y_pos, words)
+    ax.invert_yaxis()
+    ax.set_xlabel('TF-IDF Values')
+    ax.set_title(title)
+    ax.bar_label(rect, padding=2)
+    plt.xlim((-1, max(tfidf_vals) + 5))
+    plt.show()
+    fig.savefig('plots/TFIDF_PLOT_' + title + '.png')
+
+
 if __name__ == '__main__':
-    dict_stats_per_filter = read_from_json('data/results/stats_per_filter_type.json')
-    print(json.dumps(dict_stats_per_filter, indent=4))
+    pass
